@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly - Automate your workflows</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --dark: #0a0a0a;
+            --text-dark: #111111;
+            --text-light: #ffffff;
+            --gray: #666666;
+            --border: rgba(0,0,0,0.1);
+            --font: 'Inter', -apple-system, sans-serif;
+            --radius-lg: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: clip; /* Permanently prevents horizontal white space without breaking position: sticky */
+            background-color: var(--bg);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; object-fit: cover; }
+        
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1005; /* Above mobile menu */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 8px 8px 8px 24px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            max-width: 95%; 
+        }
+
+        .nav-logo { font-weight: 600; font-size: 14px; z-index: 1006; position: relative; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 32px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-size: 13px; font-weight: 500; opacity: 0.6; transition: 0.2s; }
+        .nav-links a:hover { opacity: 1; }
+        
+        .btn-black {
+            background: var(--text-dark); color: var(--text-light);
+            padding: 12px 24px; border-radius: 100px;
+            font-size: 13px; font-weight: 500; text-decoration: none;
+            transition: transform 0.2s; border: none; cursor: pointer;
+            z-index: 1006; position: relative; white-space: nowrap;
+        }
+        .btn-black:hover { transform: scale(1.05); }
+
+        /* Modern Hamburger */
+        .hamburger {
+            display: none; flex-direction: column; justify-content: center; gap: 5px; 
+            width: 40px; height: 40px; cursor: pointer; z-index: 1006; position: relative;
+            align-items: center; border-radius: 50%; background: #f0f0f0;
+            flex-shrink: 0;
+        }
+        .hamburger span {
+            width: 18px; height: 2px; background: var(--text-dark);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s; 
+            border-radius: 2px; display: block;
+        }
+        
+        /* Mobile Top Slide Sheet (Placed safely OUTSIDE the Nav container) */
+        .nav-menu-mobile {
+            display: none; /* Blocked by default on desktop, flex on mobile via media query */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: linear-gradient(145deg, #111111 0%, #1a1a2e 100%);
+            flex-direction: column; justify-content: center; align-items: center;
+            gap: 40px; opacity: 0; pointer-events: none;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.32, 1, 0.23, 1), opacity 0.6s ease;
+            z-index: 1001;
+        }
+        .nav-menu-mobile.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .nav-menu-mobile .nav-links-mobile { flex-direction: column; align-items: center; gap: 32px; width: 100%; display: flex; }
+        .nav-menu-mobile .nav-links-mobile a { 
+            font-size: 28px; font-weight: 500; opacity: 0; transform: translateY(-20px); 
+            color: var(--text-light); letter-spacing: -0.02em; transition: 0.4s ease; text-decoration: none;
+        }
+        .nav-menu-mobile.active .nav-links-mobile a { opacity: 1; transform: translateY(0); }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(1) { transition-delay: 0.10s; }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(2) { transition-delay: 0.15s; }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(3) { transition-delay: 0.20s; }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(4) { transition-delay: 0.25s; }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(5) { transition-delay: 0.30s; }
+
+        /* --- Hero Section & Scroll Animation --- */
+        .hero-wrapper {
+            height: 250vh;
+            position: relative;
+            background-color: var(--bg);
+        }
+        
+        .hero-sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg);
+            z-index: 10;
+        }
+
+        .hero-bg-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100dvh;
+            border-radius: 0px;
+            overflow: hidden;
+            will-change: width, height, border-radius;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
+        .hero-bg-container img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+        }
+
+        .hero-text-content {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 20;
+            color: var(--text-light);
+            width: 90%;
+            max-width: 800px;
+            will-change: opacity, transform;
+            pointer-events: auto;
+        }
+        .hero-text-content h1 {
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            font-weight: 500; line-height: 1.05;
+            letter-spacing: -0.04em; margin-bottom: 24px;
+        }
+        .hero-text-content p {
+            font-size: 18px; color: rgba(255,255,255,0.8);
+            max-width: 500px; margin: 0 auto 32px; line-height: 1.5;
+        }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; }
+        .btn-white {
+            background: var(--text-light); color: var(--text-dark);
+            padding: 14px 28px; border-radius: 100px; font-size: 15px; font-weight: 500;
+            text-decoration: none; border: 1px solid rgba(0,0,0,0.1);
+            transition: 0.2s; white-space: nowrap;
+        }
+        .btn-white:hover { background: #f0f0f0; }
+        .btn-link {
+            background: transparent; color: var(--text-light);
+            padding: 14px 20px; font-size: 15px; text-decoration: none; font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .scatter-img {
+            position: absolute;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            z-index: 5;
+            opacity: 0;
+            transform: scale(0.8);
+            will-change: transform, opacity;
+            pointer-events: none;
+            object-fit: cover;
+        }
+        
+        /* Using percentages instead of vw for scatter images */
+        .sc-1 { top: 10%; left: 3%; width: 14%; height: 18%; }
+        .sc-2 { top: 48%; left: 14%; width: 16%; height: 10%; }
+        .sc-3 { top: 72%; left: 5%; width: 12%; height: 14%; }
+        .sc-4 { top: 15%; right: 6%; width: 14%; height: 16%; }
+        .sc-5 { top: 45%; right: 18%; width: 12%; height: 12%; }
+        .sc-6 { top: 68%; right: 4%; width: 16%; height: 12%; }
+
+        /* --- Infinite Marquee --- */
+        .marquee-section { padding: 40px 0; background: var(--bg); border-bottom: 1px solid rgba(0,0,0,0.05); overflow: hidden; position: relative; z-index: 20;}
+        .marquee-title { text-align: center; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); margin-bottom: 30px; }
+        .marquee-track { display: flex; width: max-content; animation: scroll 30s linear infinite; align-items: center; }
+        .marquee-track span { font-size: 24px; font-weight: 600; color: #ccc; margin: 0 40px; letter-spacing: -0.04em; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- Global Section Styles --- */
+        .section { position: relative; padding: 120px 5%; background: var(--bg); z-index: 20; width: 100%; }
+        .section-dark { background: var(--dark); color: var(--text-light); }
+        .text-center { text-align: center; }
+        
+        .split-layout { display: flex; gap: 80px; max-width: 1200px; margin: 0 auto; align-items: flex-start; width: 100%; }
+        .split-left { flex: 1; position: sticky; top: 150px; width: 100%; }
+        .split-right { flex: 1.2; display: flex; flex-direction: column; gap: 40px; width: 100%; }
+
+        h2.section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 500;
+            letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px;
+            overflow-wrap: break-word;
+        }
+        .section-sub { font-size: 18px; color: var(--gray); line-height: 1.6; }
+        .label {
+            font-size: 11px; text-transform: uppercase; font-weight: 600;
+            letter-spacing: 0.1em; color: var(--gray); margin-bottom: 16px; display: block;
+        }
+
+        /* --- Feature Cards --- */
+        .card {
+            background: var(--text-light); border-radius: var(--radius-lg);
+            padding: 24px; color: var(--text-dark); width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .card img { border-radius: 12px; margin-bottom: 24px; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; }
+        .card h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.02em; }
+
+        /* --- Tabbed Use Cases --- */
+        .use-case-section { padding: 120px 5%; background: #ffffff; position: relative; z-index: 20;}
+        .use-case-container { display: flex; gap: 80px; max-width: 1200px; margin: 60px auto 0; align-items: center; }
+        .uc-tabs { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+        .uc-tab { padding: 24px 32px; border-left: 2px solid #eee; cursor: pointer; transition: 0.3s; opacity: 0.6; }
+        .uc-tab.active { border-color: var(--text-dark); background: var(--bg); opacity: 1; border-radius: 0 16px 16px 0; }
+        .uc-tab h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.02em; }
+        .uc-tab p { color: var(--gray); font-size: 15px; line-height: 1.5; }
+        .uc-image-container { flex: 1.5; position: relative; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .uc-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s ease; transform: scale(1.05); }
+        .uc-img.active { opacity: 1; transform: scale(1); z-index: 2; }
+
+        /* --- Stats Banner --- */
+        .stats-banner { position: relative; padding: 120px 5%; color: var(--text-light); text-align: center; overflow: hidden; background: var(--dark); z-index: 20;}
+        .stats-banner .bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: 1; pointer-events: none; }
+        .stats-grid { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; margin: 60px auto 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
+        .stat h3 { font-size: 3rem; font-weight: 400; margin-bottom: 8px; }
+        .stat p { font-size: 14px; color: rgba(255,255,255,0.6); }
+
+        /* --- Testimonial Section --- */
+        .testimonial-section { position: relative; padding: 150px 5%; text-align: center; color: var(--text-light); background: #1a1a1a; z-index: 20;}
+        .testimonial-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: 0; mix-blend-mode: luminosity; }
+        .testimonial-content { position: relative; z-index: 2; }
+        .testimonial-text { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; line-height: 1.4; max-width: 900px; margin: 0 auto 40px; min-height: 150px; transition: opacity 0.3s ease; }
+        .avatars { display: flex; justify-content: center; gap: 16px; margin-top: 24px; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; cursor: pointer; opacity: 0.4; transition: 0.3s; border: 2px solid transparent; }
+        .avatar.active { opacity: 1; border-color: var(--text-light); transform: scale(1.1); }
+
+        /* --- Timeline Controls --- */
+        .toggle-wrapper {
+            background: rgba(255,255,255,0.05); padding: 4px; border-radius: 100px;
+            display: inline-flex; align-items: center; margin-bottom: 32px; position: relative;
+            max-width: 100%; overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .toggle-wrapper::-webkit-scrollbar { display: none; }
+        .toggle-btn { background: transparent; border: none; color: #888; padding: 10px 24px; border-radius: 100px; cursor: pointer; font-size: 14px; z-index: 2; transition: 0.3s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+        .toggle-btn.active { color: var(--text-dark); }
+        .badge-soon { font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; color: #fff; transition: 0.3s; font-weight: 600; letter-spacing: 0.5px; }
+        .toggle-btn.active .badge-soon { background: rgba(0,0,0,0.1); color: var(--text-dark); }
+        .toggle-slider { position: absolute; top: 4px; left: 0; height: calc(100% - 8px); width: 0; background: var(--text-light); border-radius: 100px; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1; }
+
+        .timeline { position: relative; display: flex; justify-content: space-between; margin-top: 60px; width: 100%; }
+        .timeline-line { position: absolute; top: 12px; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.1); z-index: 1; }
+        .timeline-progress { position: absolute; top: 12px; left: 0; height: 2px; background: var(--text-light); z-index: 2; width: var(--prog, 25%); transition: width 0.6s ease, height 0.6s ease; }
+        .step { position: relative; z-index: 3; text-align: center; font-size: 14px; color: #666; }
+        .step .dot { width: 24px; height: 24px; border-radius: 50%; background: var(--dark); border: 2px solid rgba(255,255,255,0.2); margin: 0 auto 12px; transition: 0.3s; }
+        .step.active .dot { background: var(--text-light); border-color: var(--text-light); }
+        .step.active { color: var(--text-light); }
+
+        /* --- Niches Section --- */
+        .niches-section { padding: 120px 5%; background: #ffffff; text-align: center; z-index: 20; position: relative;}
+        .niche-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 900px; margin: 40px auto; }
+        .niche-tag { padding: 12px 24px; border-radius: 100px; background: var(--bg); border: 1px solid var(--border); font-size: 15px; color: var(--gray); transition: 0.2s; cursor: pointer; }
+        .niche-tag:hover { border-color: var(--text-dark); color: var(--text-dark); }
+        .niche-val { color: #aaa; margin-left: 8px; font-size: 13px; }
+        
+        .search-bar { display: flex; align-items: center; max-width: 500px; margin: 0 auto; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; padding: 8px 8px 8px 24px; transition: 0.3s; width: 100%; }
+        .search-bar:focus-within { border-color: var(--text-dark); box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
+        .search-bar input { flex: 1; border: none; background: transparent; outline: none; font-size: 15px; color: var(--text-dark); min-width: 0; }
+        .search-bar button { background: var(--text-dark); color: var(--text-light); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+
+        /* --- Sleep Section --- */
+        .sleep-section { position: relative; height: 80vh; min-height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-light); overflow: hidden; z-index: 20;}
+        .sleep-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .sleep-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 2; }
+        .sleep-content { position: relative; z-index: 3; max-width: 700px; padding: 0 5%; }
+
+        /* --- Pricing --- */
+        .pricing-section { padding: 120px 5%; text-align: center; background: var(--bg); z-index: 20; position: relative;}
+        .pricing-grid { display: flex; justify-content: center; gap: 24px; margin-top: 60px; align-items: stretch; }
+        .price-card { background: var(--text-light); padding: 40px; border-radius: var(--radius-lg); width: 100%; max-width: 340px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
+        .price-card.dark { background: var(--dark); color: var(--text-light); transform: scale(1.05); z-index: 2; }
+        .price-card h3 { font-size: 24px; font-weight: 500; margin-bottom: 8px; }
+        .price-card .price { font-size: 48px; font-weight: 500; margin-bottom: 32px; letter-spacing: -0.04em; }
+        .price-card .price span { font-size: 16px; color: var(--gray); font-weight: 400; }
+        .price-card ul { list-style: none; margin-top: 32px; flex-grow: 1; }
+        .price-card ul li { margin-bottom: 16px; font-size: 15px; display: flex; gap: 12px; opacity: 0.8; }
+        .price-card ul li::before { content: '—'; opacity: 0.5; }
+        
+        .btn-full { width: 100%; text-align: center; display: block; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-dark); }
+
+        /* --- Pre-Footer Gallery --- */
+        .bento-gallery { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 80px; width: 100%; }
+        .bento-gallery img { width: 100%; height: 200px; border-radius: 16px; }
+        
+        /* --- Modern Footer --- */
+        .modern-footer { background: #ffffff; padding: 80px 5% 40px; border-top: 1px solid rgba(0,0,0,0.05); z-index: 20; position: relative;}
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
+        .footer-brand h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+        .footer-brand p { color: var(--gray); font-size: 14px; line-height: 1.6; max-width: 300px; }
+        .footer-links h4 { font-size: 12px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); }
+        .footer-links a { display: block; color: var(--gray); text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: 0.2s; }
+        .footer-links a:hover { color: var(--text-dark); }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05); font-size: 13px; color: #999; }
+
+        /* GSAP Initial Setup */
+        .reveal { visibility: hidden; }
+
+        /* --- Responsive Fixes --- */
+        @media (max-width: 900px) {
+            .split-layout, .pricing-grid { flex-direction: column; align-items: center; width: 100%; }
+            .split-left, .split-right { position: relative; top: 0; width: 100%; }
+            .split-left { margin-bottom: 40px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .bento-gallery { grid-template-columns: repeat(2, 1fr); }
+            .price-card.dark { transform: scale(1); }
+            
+            /* Perfect Timeline Stacking */
+            .timeline { flex-direction: column; gap: 30px; align-items: flex-start; max-width: 100%; }
+            .timeline-line, .timeline-progress { width: 2px !important; height: 100%; left: 11px; top: 0; }
+            .timeline-progress { height: var(--prog, 25%); width: 2px !important; }
+            .step { display: flex; align-items: center; gap: 16px; text-align: left; width: 100%; }
+            .step .dot { margin: 0; flex-shrink: 0; }
+            
+            /* Tabbed Use Case Mobile */
+            .use-case-container { flex-direction: column; gap: 40px; }
+            .uc-tabs { width: 100%; }
+            .uc-tab { padding: 20px; border-left: none; border-top: 2px solid #eee; border-radius: 0 0 16px 16px !important;}
+            .uc-tab.active { border-top-color: var(--text-dark); border-radius: 0 0 16px 16px; }
+            .uc-image-container { width: 100%; }
+
+            /* Bento Grid Mobile */
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-large { grid-column: span 1; }
+
+            .split-right img { height: auto !important; max-height: 400px; width: 100%; }
+            
+            /* Mobile Nav specific overrides */
+            nav { width: 90%; justify-content: space-between; padding: 8px 8px 8px 24px; gap: 0; left: 50%; transform: translateX(-50%); }
+            .nav-menu { display: none; } /* Hide desktop links */
+            .nav-menu-mobile { display: flex; } /* Enable mobile menu */
+            .hamburger { display: flex; }
+            
+            /* Hamburger to X Animation */
+            .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+            
+            .scatter-img { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .section, .stats-banner, .testimonial-section, .pricing-section, .niches-section, .use-case-section, .bento-section { padding: 80px 5%; overflow: hidden; }
+            .hero-text-content h1 { font-size: 2.2rem; margin-bottom: 16px; }
+            .hero-text-content p { font-size: 15px; margin-bottom: 24px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            h2.section-title { font-size: 1.8rem; }
+            .hero-btns { flex-direction: column; width: 100%; gap: 12px; }
+            .hero-btns a { width: 100%; text-align: center; }
+            .bento-gallery { gap: 8px; }
+            .bento-gallery img { height: 120px; }
+            .price-card { padding: 30px; }
+            .split-layout { gap: 40px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .footer-brand { grid-column: span 2; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .toggle-wrapper { padding: 4px; } 
+            .toggle-btn { padding: 8px 16px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">Stackly</div>
+        <!-- Desktop Menu -->
+        <div class="nav-menu">
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Services</a>
+                <a href="#">Blog</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="#" class="btn-black" style="display: none;" id="nav-cta">Login</a>
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <style>
+        @media(min-width: 901px) { #nav-cta { display: block !important; } }
+    </style>
+
+    <!-- Mobile Full Screen Menu (Placed outside Nav) -->
+    <div class="nav-menu-mobile" id="mobile-nav-menu">
+        <div class="nav-links-mobile">
+            <a href="#" onclick="toggleMenu()">Home</a>
+            <a href="#" onclick="toggleMenu()">Services</a>
+            <a href="#" onclick="toggleMenu()">Blog</a>
+            <a href="#" onclick="toggleMenu()">About</a>
+            <a href="#" onclick="toggleMenu()">Contact</a>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero-wrapper" id="hero">
+        <div class="hero-sticky">
+            <div class="hero-bg-container">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=2000&q=80" alt="Abstract Tech Hero">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-text-content">
+                <h1>Automate your workflows.<br>Stack your success.</h1>
+                <p>An AI-powered workspace that connects your tools, automates repetitive tasks, and gives your team the ultimate leverage. Stop doing busywork. Start building.</p>
+                <div class="hero-btns">
+                    <a href="#" class="btn-white">Start building for free</a>
+                    <a href="#" class="btn-link">See how it works &darr;</a>
+                </div>
+            </div>
+
+            <!-- Scattered Parallax Images -->
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-1" alt="Dashboard">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-2" alt="Data Charts">
+            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-3" alt="Analytics">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-4" alt="Tablet UI">
+            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-5" alt="Network Connect">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-6" alt="Code Script">
+            
+        </div>
+    </div>
+
+    <!-- NEW: Infinite Marquee Social Proof -->
+    <div class="marquee-section">
+        <div class="marquee-title">Powering workflows at forward-thinking teams</div>
+        <div class="marquee-track">
+            <!-- Doubled for seamless loop -->
+            <span>ACME CORP</span><span>GLOBEX</span><span>VERTEX</span><span>SYNTHETIX</span><span>QUANTUM</span><span>NEXUS</span><span>FLOW</span>
+            <span>ACME CORP</span><span>GLOBEX</span><span>VERTEX</span><span>SYNTHETIX</span><span>QUANTUM</span><span>NEXUS</span><span>FLOW</span>
+        </div>
+    </div>
+
+    <!-- HOW IT WORKS (Split Layout) -->
+    <div class="section">
+        <div class="split-layout">
+            <div class="split-left reveal">
+                <span class="label">STACKLY AI</span>
+                <h2 class="section-title">The AI handles the heavy lifting.</h2>
+                <p class="section-sub">Stackly connects thousands of apps to automate data entry, trigger actions, and streamline your entire business operation in real-time. No code required.</p>
+            </div>
+            <div class="split-right">
+                
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Dashboard">
+                    <h3>Visual Workflow Builder</h3>
+                    <p class="section-sub" style="font-size: 15px;">Drag and drop to create complex automations. Build workflows that trigger across multiple apps instantly with zero technical knowledge.</p>
+                </div>
+
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=800&q=80" alt="Routing">
+                    <h3>AI-Powered Data Routing</h3>
+                    <p class="section-sub" style="font-size: 15px;">Let our AI analyze incoming data, categorize it, and route it to the right team members or databases automatically based on context.</p>
+                </div>
+
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Documents">
+                    <h3>Smart Document Processing</h3>
+                    <p class="section-sub" style="font-size: 15px;">Stop manual data entry. Stackly reads invoices, contracts, and emails to extract key information and sync it to your CRM or ERP.</p>
+                </div>
+
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" alt="Collaboration">
+                    <h3>Real-time Team Collaboration</h3>
+                    <p class="section-sub" style="font-size: 15px;">A built-in hub that tracks every automation, alerts the right people when human approval is needed, and keeps your entire organization in sync.</p>
+                </div>
+
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" alt="Integrations">
+                    <h3>One-click App Integrations</h3>
+                    <p class="section-sub" style="font-size: 15px;">Connect your favorite tools—Slack, Salesforce, Notion, and Google Workspace—in seconds with zero setup or API key management.</p>
+                </div>
+
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Analysis">
+                    <h3>Predictive Analytics Engine</h3>
+                    <p class="section-sub" style="font-size: 15px;">Spot bottlenecks before they happen. Get weekly intelligence reports on your team's productivity and workflow execution times.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Tabbed Use Cases Section -->
+    <div class="use-case-section">
+        <span class="label reveal text-center">Built for every team</span>
+        <h2 class="section-title reveal text-center">One platform. Endless solutions.</h2>
+        
+        <div class="use-case-container reveal">
+            <div class="uc-tabs">
+                <div class="uc-tab active" onclick="switchUseCase(0)">
+                    <h3>Sales & RevOps</h3>
+                    <p>Automate lead routing, CRM updates, and proposal generation instantly.</p>
+                </div>
+                <div class="uc-tab" onclick="switchUseCase(1)">
+                    <h3>Engineering</h3>
+                    <p>Sync Jira tickets, automate deployments, and track bug reports seamlessly.</p>
+                </div>
+                <div class="uc-tab" onclick="switchUseCase(2)">
+                    <h3>Human Resources</h3>
+                    <p>Streamline employee onboarding, payroll syncs, and benefits management.</p>
+                </div>
+            </div>
+            <div class="uc-image-container">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" class="uc-img active" id="uc-img-0" alt="Sales Dashboard">
+                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80" class="uc-img" id="uc-img-1" alt="Engineering Code">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" class="uc-img" id="uc-img-2" alt="HR Team">
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS BANNER -->
+    <div class="stats-banner">
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2000&q=80" class="bg-img" alt="Cyber Security Tech">
+        <div style="position: relative; z-index: 2;" class="reveal">
+            <h2 class="section-title">Stop doing busywork. Start building.</h2>
+            <p class="section-sub" style="margin: 0 auto; max-width: 600px; color: rgba(255,255,255,0.8);">Teams spend 20 hours a week on repetitive tasks. You spend 20 minutes reviewing workflows the AI already optimized.</p>
+        </div>
+        <div class="stats-grid reveal">
+            <div class="stat"><h3>5K+</h3><p>Apps connected</p></div>
+            <div class="stat"><h3>85%</h3><p>Faster processes</p></div>
+            <div class="stat"><h3>20hrs</h3><p>Saved per week</p></div>
+            <div class="stat"><h3>99.9%</h3><p>Uptime guaranteed</p></div>
+        </div>
+    </div>
+
+    <!-- TESTIMONIAL -->
+    <div class="testimonial-section">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80" class="testimonial-bg" alt="Modern Office">
+        <div class="testimonial-content reveal">
+            <h2 class="testimonial-text" id="quote-text">"Automating our lead routing changed everything. We capture leads, score them, and sync them to the CRM instantly. Our close rate tripled."</h2>
+            <span class="label" style="color: #aaa;" id="quote-author">ENTERPRISE PLAN · AUSTIN, TX</span>
+            <div class="avatars">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="avatar active" onclick="changeQuote(0)">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="avatar" onclick="changeQuote(1)">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="avatar" onclick="changeQuote(2)">
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMELINE CONTROLS -->
+    <div class="section section-dark">
+        <div class="split-layout">
+            <div class="split-left reveal">
+                <span class="label">Where we're headed</span>
+                <h2 class="section-title" style="margin-bottom: 40px;">Your workflows. Your rules. Choose your level of automation.</h2>
+                
+                <div class="toggle-wrapper">
+                    <div class="toggle-slider" id="t-slider"></div>
+                    <button class="toggle-btn active" id="btn-manual" onclick="setMode('manual')">Manual</button>
+                    <button class="toggle-btn" id="btn-assist" onclick="setMode('assist')">Assisted <span class="badge-soon">SOON</span></button>
+                    <button class="toggle-btn" id="btn-auto" onclick="setMode('auto')">Autopilot <span class="badge-soon">SOON</span></button>
+                </div>
+
+                <p class="section-sub" id="mode-text" style="min-height: 100px; color: rgba(255,255,255,0.7);">
+                    Available now. The AI handles basic routing, triggers, and drafts. You decide what to approve, what to adjust, and when to execute. Full control, full visibility.
+                </p>
+
+                <div class="timeline" id="timeline">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-progress" id="t-progress" style="--prog: 25%;"></div>
+                    <div class="step active"><div class="dot"></div><span>01<br>Trigger event</span></div>
+                    <div class="step" id="step-2"><div class="dot"></div><span>02<br>AI Analyzed</span></div>
+                    <div class="step" id="step-3"><div class="dot"></div><span>03<br>You approve</span></div>
+                    <div class="step" id="step-4"><div class="dot"></div><span>04<br>Execution</span></div>
+                </div>
+            </div>
+            <div class="split-right reveal">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" style="border-radius: var(--radius-lg); height: 100%; object-fit: cover; width: 100%;" alt="Interior">
+            </div>
+        </div>
+    </div>
+
+    <!-- NICHES / INTEGRATIONS SECTION -->
+    <div class="niches-section">
+        <span class="label reveal">Integrations</span>
+        <h2 class="section-title reveal">Connect the tools you already use.</h2>
+        <p class="section-sub reveal" style="max-width: 600px; margin: 0 auto;">Choose the platforms your team relies on. Stackly handles syncing, updating, and triggering across all of them.</p>
+        
+        <div class="niche-tags reveal">
+            <span class="niche-tag">CRM & Sales <span class="niche-val">Active</span></span>
+            <span class="niche-tag">Email Marketing <span class="niche-val">Active</span></span>
+            <span class="niche-tag">HR & Payroll <span class="niche-val">Active</span></span>
+            <span class="niche-tag">Cloud Storage <span class="niche-val">Active</span></span>
+            <span class="niche-tag">Customer Support <span class="niche-val">Active</span></span>
+            <span class="niche-tag">Data Analytics <span class="niche-val">Active</span></span>
+            <span class="niche-tag">Project Management <span class="niche-val">Active</span></span>
+            <span class="niche-tag">Finance & Billing <span class="niche-val">Active</span></span>
+        </div>
+
+        <div class="reveal">
+            <span class="label" style="margin: 60px 0 16px;">Or search for an app</span>
+            <div class="search-bar">
+                <input type="text" placeholder="Search an app — Slack, Salesforce, Notion...">
+                <button>&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLEEP SECTION -->
+    <div class="sleep-section">
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80" class="sleep-bg" alt="Global Network">
+        <div class="sleep-overlay"></div>
+        <div class="sleep-content reveal">
+            <h2 class="section-title">Your business runs<br>while you sleep.</h2>
+            <p class="section-sub" style="color: rgba(255,255,255,0.8);">The AI never stops executing. Wake up to perfectly synced databases and handled customer requests.</p>
+        </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="pricing-section" id="pricing">
+        <span class="label reveal">Pricing</span>
+        <h2 class="section-title reveal">One good automation pays for a year.</h2>
+        <p class="section-sub reveal" style="margin: 0 auto;">No execution limits, no throttling. Every plan gets the same lightning-fast processing.</p>
+        
+        <div class="pricing-grid reveal">
+            <div class="price-card">
+                <span class="label">Starter</span>
+                <h3>Scout</h3>
+                <div class="price">$29<span>/mo</span></div>
+                <a href="#" class="btn-black btn-outline btn-full">Start free trial</a>
+                <ul>
+                    <li>5 Active workflows</li>
+                    <li>Real-time data sync</li>
+                    <li>Basic AI routing</li>
+                    <li>Analytics dashboard</li>
+                </ul>
+            </div>
+            
+            <div class="price-card dark">
+                <span class="label" style="color: rgba(255,255,255,0.6);">Most Popular</span>
+                <h3>Professional</h3>
+                <div class="price">$49<span>/mo</span></div>
+                <a href="#" class="btn-white btn-full">Start free trial</a>
+                <ul>
+                    <li>25 Active workflows</li>
+                    <li>Advanced AI processing</li>
+                    <li>Custom webhooks</li>
+                    <li>Team collaboration seats</li>
+                </ul>
+            </div>
+
+            <div class="price-card">
+                <span class="label">Enterprise</span>
+                <h3>Syndicate</h3>
+                <div class="price">$99<span>/mo</span></div>
+                <a href="#" class="btn-black btn-outline btn-full">Start free trial</a>
+                <ul>
+                    <li>Unlimited workflows</li>
+                    <li>Dedicated success manager</li>
+                    <li>Enterprise SLA</li>
+                    <li>Early access to Autopilot</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRE-FOOTER GALLERY -->
+    <div class="section text-center" style="padding-top: 40px; padding-bottom: 80px;">
+        <p class="section-sub reveal" style="margin-bottom: 24px;">Built for the way modern teams actually work. Automation runs in the background. Your team stays in the foreground.</p>
+        <div class="bento-gallery reveal">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80" alt="UI Dashboard">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=300&q=80" alt="Data Charts">
+            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=300&q=80" alt="Analytics">
+            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=300&q=80" alt="Network">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=300&q=80" alt="Code">
+        </div>
+        <h2 class="section-title reveal">Every workflow has a bottleneck.<br>Start eliminating yours.</h2>
+        <a href="#" class="btn-black reveal" style="display: inline-block; margin-top: 24px;">Start free trial</a>
+    </div>
+
+    <!-- MODERN FOOTER -->
+    <footer class="modern-footer">
+        <div class="footer-grid reveal">
+            <div class="footer-brand">
+                <h3>Stackly</h3>
+                <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Product</h4>
+                <a href="#">Home</a>
+                <a href="#">Services</a>
+                <a href="#">Integrations</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <a href="#">Blog</a>
+                <a href="#">Automation Guide</a>
+                <a href="#">Help Center</a>
+                <a href="#">Community</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom reveal">
+            <p>© 2026 Stackly Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="#" style="color: #999; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#999'">Twitter</a>
+                <a href="#" style="color: #999; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#999'">Instagram</a>
+                <a href="#" style="color: #999; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#999'">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+
+    <!-- JAVASCRIPT ANIMATIONS -->
+    <script>
+        // --- 1. Flawless Hero Scroll Animation using RequestAnimationFrame ---
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateHeroAnimation();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        function updateHeroAnimation() {
+            const scrollTop = window.scrollY;
+            const scrollRange = window.innerHeight * 1.5; 
+            
+            let progress = Math.min(Math.max(scrollTop / scrollRange, 0), 1);
+
+            const bgContainer = document.querySelector('.hero-bg-container');
+            if (bgContainer) {
+                const isMobile = window.innerWidth <= 768;
+                const shrinkW = isMobile ? 10 : 55; 
+                const shrinkH = isMobile ? 20 : 50; 
+                
+                const width = 100 - (progress * shrinkW); 
+                const height = 100 - (progress * shrinkH);
+                const radius = progress * (isMobile ? 16 : 24);
+                
+                bgContainer.style.width = `${width}%`;
+                bgContainer.style.height = `${height}dvh`;
+                bgContainer.style.borderRadius = `${radius}px`;
+            }
+
+            const textContent = document.querySelector('.hero-text-content');
+            if (textContent) {
+                const opacity = Math.max(0, 1 - (progress * 2.5));
+                const yOffset = progress * -40;
+                
+                textContent.style.opacity = opacity;
+                textContent.style.transform = `translate(-50%, calc(-50% + ${yOffset}px))`;
+            }
+
+            const scatters = document.querySelectorAll('.scatter-img');
+            scatters.forEach((img, idx) => {
+                const scatterProg = Math.max(0, (progress - 0.2) / 0.8);
+                img.style.opacity = scatterProg;
+                
+                const offset = (1 - scatterProg) * (40 + idx * 10);
+                img.style.transform = `scale(${0.8 + 0.2 * scatterProg}) translateY(${offset}px)`;
+            });
+        }
+        
+        updateHeroAnimation();
+
+        // --- 2. GSAP Text & Element Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Ensure elements are hidden initially to prevent FOUC (Flash of Unstyled Content)
+        document.querySelectorAll('.reveal').forEach(el => el.style.visibility = 'hidden');
+
+        // Apply SplitType to all major text elements for a premium staggered reveal
+        const splitTextElements = document.querySelectorAll('h1, h2.section-title, p.section-sub, .hero-text-content p, .testimonial-text, .card h3, .uc-tab h3, .stat h3, .price-card h3, .footer-brand p');
+        
+        splitTextElements.forEach(el => {
+            // Remove standard block reveal to prevent double-animation
+            el.classList.remove('reveal');
+            el.style.visibility = 'visible'; 
+            
+            const split = new SplitType(el, { types: 'words' });
+            
+            // Set initial hidden state for words
+            gsap.set(split.words, { opacity: 0, y: 24 });
+
+            // Animate on scroll (Hero is handled explicitly below)
+            if (!el.closest('.hero-text-content')) {
+                gsap.to(split.words, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: 0.02,
+                    ease: "power3.out"
+                });
+            }
+        });
+
+        // Initial Hero Content Setup (Triggers on load)
+        const heroTl = gsap.timeline({ delay: 0.1 });
+        heroTl.to(".hero-text-content h1 .word", 
+            { y: 0, opacity: 1, duration: 0.9, stagger: 0.04, ease: "power4.out" }
+        )
+        .to(".hero-text-content p .word", 
+            { y: 0, opacity: 1, duration: 0.8, stagger: 0.015, ease: "power3.out" }, 
+            "-=0.7"
+        )
+        .fromTo(".hero-btns", 
+            { y: 20, autoAlpha: 0 }, 
+            { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 
+            "-=0.5"
+        );
+
+        // ScrollTrigger Animations for remaining block elements (Images, Cards, UI)
+        gsap.utils.toArray('.reveal').forEach(elem => {
+            gsap.fromTo(elem,
+                { y: 50, autoAlpha: 0 },
+                {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%", // Starts animation when element is 85% down the screen
+                        toggleActions: "play none none reverse" // Reverses smoothly when scrolling up
+                    },
+                    duration: 0.8,
+                    y: 0,
+                    autoAlpha: 1,
+                    ease: "power3.out"
+                }
+            );
+        });
+
+        // --- 3. Use Case Tab Switcher ---
+        function switchUseCase(index) {
+            const tabs = document.querySelectorAll('.uc-tab');
+            const imgs = document.querySelectorAll('.uc-img');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            imgs.forEach(img => img.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            document.getElementById(`uc-img-${index}`).classList.add('active');
+        }
+
+        // --- 4. Testimonial Quote Switcher ---
+        const testimonials = [
+            { t: "Automating our lead routing changed everything. We capture leads, score them, and sync them to the CRM instantly. Our close rate tripled.", a: "ENTERPRISE PLAN · AUSTIN, TX" },
+            { t: "Set up my HR onboarding workflow on a Sunday. Had three new hires fully processed by Monday morning without lifting a finger.", a: "PROFESSIONAL PLAN · DENVER, CO" },
+            { t: "The data routing is scary accurate. It correctly categorized and responded to 500 support tickets before my team even logged on.", a: "PROFESSIONAL PLAN · PORTLAND, OR" }
+        ];
+        
+        function changeQuote(index) {
+            const textEl = document.getElementById('quote-text');
+            const authorEl = document.getElementById('quote-author');
+            const avatars = document.querySelectorAll('.avatar');
+            
+            textEl.style.opacity = 0;
+            authorEl.style.opacity = 0;
+            avatars.forEach(a => a.classList.remove('active'));
+            avatars[index].classList.add('active');
+            
+            setTimeout(() => {
+                textEl.innerText = `"${testimonials[index].t}"`;
+                authorEl.innerText = testimonials[index].a;
+                
+                // Re-apply split text animation on the new dynamically loaded quote
+                const splitQuote = new SplitType(textEl, { types: 'words' });
+                gsap.fromTo(splitQuote.words,
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0, duration: 0.6, stagger: 0.02, ease: "power3.out" }
+                );
+                
+                textEl.style.opacity = 1;
+                authorEl.style.opacity = 1;
+            }, 300);
+        }
+
+        // --- 5. Manual / Autopilot Toggle with Dynamic Width Calc ---
+        function setMode(mode) {
+            const slider = document.getElementById('t-slider');
+            const btnM = document.getElementById('btn-manual');
+            const btnAs = document.getElementById('btn-assist');
+            const btnAu = document.getElementById('btn-auto');
+            const text = document.getElementById('mode-text');
+            const progress = document.getElementById('t-progress');
+            
+            [btnM, btnAs, btnAu].forEach(b => b.classList.remove('active'));
+            [2, 3, 4].forEach(i => {
+                const step = document.getElementById('step-'+i);
+                if(step) step.classList.remove('active');
+            });
+
+            let activeBtn;
+
+            if (mode === 'manual') {
+                activeBtn = btnM;
+                activeBtn.classList.add('active');
+                text.innerText = "Available now. The AI handles basic routing, triggers, and drafts. You decide what to approve, what to adjust, and when to execute. Full control, full visibility.";
+                progress.style.setProperty('--prog', '25%');
+            } else if (mode === 'assist') {
+                activeBtn = btnAs;
+                activeBtn.classList.add('active');
+                text.innerText = "Coming Soon. The AI handles multi-step approvals and auto-resolves standard edge cases. You only step in for complex anomalies.";
+                progress.style.setProperty('--prog', '50%');
+                document.getElementById('step-2').classList.add('active');
+            } else {
+                activeBtn = btnAu;
+                activeBtn.classList.add('active');
+                text.innerText = "On the roadmap. Fully autonomous. Set your parameters, define your compliance rules, and let the AI run 24/7. Data moves, tasks complete, your business scales.";
+                progress.style.setProperty('--prog', '100%');
+                document.getElementById('step-2').classList.add('active');
+                document.getElementById('step-3').classList.add('active');
+                document.getElementById('step-4').classList.add('active');
+            }
+            
+            // Dynamically resize and move the slider pill to match button exactly
+            if (activeBtn && slider) {
+                slider.style.width = activeBtn.offsetWidth + 'px';
+                slider.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+            }
+        }
+
+        // Initialize slider position
+        window.addEventListener('load', () => setMode('manual'));
+        window.addEventListener('resize', () => {
+            const activeBtn = document.querySelector('.toggle-btn.active');
+            const slider = document.getElementById('t-slider');
+            if (activeBtn && slider) {
+                slider.style.width = activeBtn.offsetWidth + 'px';
+                slider.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+            }
+        });
+        
+        // --- 6. Modern Mobile Menu Toggle ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-nav-menu');
+            const hamburger = document.getElementById('hamburger');
+            
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            
+            // 'clip' stops scroll without breaking position:sticky
+            if (menu.classList.contains('active')) {
+                document.body.style.overflow = 'clip';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+</body>
+</html>
