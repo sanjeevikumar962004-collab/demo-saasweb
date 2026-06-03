@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --dark: #0a0a0a;
+            --text-dark: #111111;
+            --text-light: #ffffff;
+            --gray: #666666;
+            --border: rgba(0,0,0,0.1);
+            --font: 'Inter', -apple-system, sans-serif;
+            --radius-lg: 24px;
+            --radius-md: 12px;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #111111;
+            color: #ffffff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-decoration: none;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-light);
+        }
+
+        .nav-item.active {
+            background: var(--text-light);
+            color: var(--text-dark);
+        }
+
+        .user-profile {
+            padding: 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-profile:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .user-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+        
+        .user-info .name { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .user-info .plan { 
+            font-size: 12px; 
+            color: rgba(255,255,255,0.6); 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .top-bar h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .btn-black {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-black:hover {
+            background: #222;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .stat-card h3 {
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 500;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* System Alerts */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .table-container {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 16px 24px;
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 20px 24px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status.healthy { background: #e8f5e9; color: #2e7d32; }
+        .status.warning { background: #fff3e0; color: #ef6c00; }
+        .status.critical { background: #ffebee; color: #c62828; }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+        
+        @media (max-width: 900px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { 
+                position: fixed; 
+                height: 100%; 
+                transform: translateX(-100%); 
+            }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+            .stats-grid { grid-template-columns: 1fr; }
+            th, td { padding: 12px 16px; }
+            .hamburger { display: block; }
+            .main-content { padding: 24px; }
+            .top-bar { margin-bottom: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <a href="index.html" class="sidebar-logo" style="margin-bottom: 0;">Stackly <span style="font-size: 12px; font-weight: 400; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; margin-left: 10px;">ADMIN</span></a>
+            <button class="hamburger" onclick="toggleSidebar()" style="display: none; font-size: 28px; color: #fff;" id="sidebar-close">&times;</button>
+        </div>
+        
+        <div class="nav-items">
+            <a href="#" class="nav-item active">Overview</a>
+            <a href="#" class="nav-item">Users & Orgs</a>
+            <a href="#" class="nav-item">System Logs</a>
+            <a href="#" class="nav-item">Billing</a>
+            <a href="#" class="nav-item">Settings</a>
+        </div>
+
+        <div class="user-profile" onclick="window.location.href='login.html'">
+            <div class="avatar" id="admin-avatar">A</div>
+            <div class="user-info">
+                <div class="name" id="admin-name-display">Loading...</div>
+                <div class="plan" id="admin-email-display">Loading...</div>
+            </div>
+            <div style="color: rgba(255,255,255,0.6); font-size: 18px; flex-shrink: 0;">&rarr;</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+                <h1>Platform Overview</h1>
+            </div>
+            <a href="404.html" class="btn-black" style="display: inline-block;">Generate Report</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <div class="value">14,208</div>
+            </div>
+            <div class="stat-card">
+                <h3>Server Uptime</h3>
+                <div class="value">99.98%</div>
+            </div>
+            <div class="stat-card">
+                <h3>Executions (24h)</h3>
+                <div class="value">1.2M</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Errors</h3>
+                <div class="value" style="color: #c62828;">3</div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>User Growth (YTD)</h2>
+        </div>
+        <div class="stat-card" style="margin-bottom: 40px; padding: 20px;">
+            <canvas id="growthChart" height="80"></canvas>
+        </div>
+
+        <div class="section-header">
+            <h2>Recent System Alerts</h2>
+            <a href="#" style="color: var(--gray); font-size: 14px; text-decoration: none;">View All Logs</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Service</th>
+                        <th>Message</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="status warning">Warning</span></td>
+                        <td>Salesforce Sync API</td>
+                        <td>Rate limit approaching threshold (85%)</td>
+                        <td style="color: var(--gray);">2 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td><span class="status healthy">Resolved</span></td>
+                        <td>Database Cluster B</td>
+                        <td>CPU spike resolved automatically</td>
+                        <td style="color: var(--gray);">15 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td><span class="status critical">Critical</span></td>
+                        <td>Payment Gateway</td>
+                        <td>Webhook delivery failure for 3 events</td>
+                        <td style="color: var(--gray);">1 hr ago</td>
+                    </tr>
+                    <tr>
+                        <td><span class="status healthy">Healthy</span></td>
+                        <td>Core Application</td>
+                        <td>Successful deployment of v2.4.1</td>
+                        <td style="color: var(--gray);">3 hrs ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="validation.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const closeBtn = document.getElementById("sidebar-close");
+            if(window.innerWidth <= 768) {
+                closeBtn.style.display = "block";
+            }
+            sidebar.classList.toggle("open");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const email = localStorage.getItem("authEmail");
+            if (email) {
+                const display = document.getElementById("admin-email-display");
+                if (display) display.textContent = email;
+            }
+
+            const name = localStorage.getItem("authName");
+            if (name) {
+                const display = document.getElementById("admin-name-display");
+                if (display) display.textContent = name;
+                
+                const avatar = document.getElementById("admin-avatar");
+                if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
+            }
+
+            // Chart Initialization
+            const ctx = document.getElementById('growthChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'New Users',
+                            data: [1200, 1900, 2200, 2800, 3100, 3900],
+                            backgroundColor: '#111111',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, grid: { borderDash: [2, 4], color: 'rgba(0,0,0,0.05)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

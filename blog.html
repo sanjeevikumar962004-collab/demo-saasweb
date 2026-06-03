@@ -56,6 +56,7 @@
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(3){transition-delay:0.20s}
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(4){transition-delay:0.25s}
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(5){transition-delay:0.30s}
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(6){transition-delay:0.35s}
 
         /* =====================================================
            GLOBAL STYLES
@@ -87,7 +88,7 @@
         .blog-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 1; }
         .blog-hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.85) 100%);
+            background: linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.4) 100%);
             z-index: 2;
         }
         .blog-hero-grid {
@@ -268,7 +269,7 @@
            FOOTER
         ===================================================== */
         .modern-footer { background: #ffffff; padding: 80px 5% 40px; border-top: 1px solid rgba(0,0,0,0.05); z-index: 20; position: relative; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
         .footer-brand h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
         .footer-brand p { color: var(--gray); font-size: 14px; line-height: 1.6; max-width: 300px; }
         .footer-links h4 { font-size: 12px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); }
@@ -309,7 +310,7 @@
 
     <!-- NAVBAR -->
     <nav>
-        <a href="index.html" class="nav-logo">Stackly</a>
+        <a href="index.html" class="nav-logo"><img src="whitelogo.webp" alt="Stackly" style="height: 24px; filter: brightness(0);"></a>
         <div class="nav-menu">
             <div class="nav-links">
                 <a href="index.html">Home</a>
@@ -320,7 +321,7 @@
             </div>
         </div>
         <div style="display:flex;gap:12px;align-items:center;">
-            <a href="#" class="btn-black" style="display:none;" id="nav-cta">Login</a>
+            <a href="login.html" class="btn-black" style="display:none;" id="nav-cta">Login</a>
             <div class="hamburger" id="hamburger" onclick="toggleMenu()">
                 <span></span><span></span><span></span>
             </div>
@@ -335,6 +336,7 @@
             <a href="blog.html" onclick="toggleMenu()">Blog</a>
             <a href="about.html" onclick="toggleMenu()">About</a>
             <a href="contact.html" onclick="toggleMenu()">Contact</a>
+            <a href="login.html" onclick="toggleMenu()">Login</a>
         </div>
     </div>
 
@@ -342,7 +344,7 @@
          BLOG HERO — Featured article hero
     ===================================================== -->
     <section class="blog-hero">
-        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=2000&q=80"
+        <img src="images/pexels-olly-927022.webp"
              class="blog-hero-bg" alt="AI Neural Network">
         <div class="blog-hero-grid"></div>
         <div class="blog-hero-overlay"></div>
@@ -355,7 +357,7 @@
             </p>
             <div class="blog-hero-divider"></div>
             <div class="blog-hero-meta">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="blog-hero-avatar" alt="Author">
+                <img src="images/pexels-pixabay-265125.webp" class="blog-hero-avatar" alt="Author">
                 <div class="blog-hero-meta-text"><strong>Marcus Holt</strong></div>
                 <span class="blog-hero-dot">·</span>
                 <div class="blog-hero-meta-text">Jun 1, 2026</div>
@@ -377,11 +379,6 @@
                 <button class="filter-tab" onclick="filterPosts('ai', this)">AI & ML</button>
                 <button class="filter-tab" onclick="filterPosts('guide', this)">Guides</button>
                 <button class="filter-tab" onclick="filterPosts('company', this)">Company</button>
-            </div>
-            <div class="filter-search">
-                <input type="text" placeholder="Search articles…" id="blog-search" oninput="searchPosts(this.value)">
-                <button>→</button>
-            </div>
         </div>
     </div>
 
@@ -405,13 +402,13 @@
             <!-- Featured 2-col -->
             <div class="featured-row">
                 <a class="article-card reveal" href="#" data-category="automation">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" class="article-card-img tall" alt="Dashboard">
+                    <img src="images/pexels-cottonbro-7438101.webp" class="article-card-img tall" alt="Dashboard">
                     <div class="article-card-body">
                         <span class="article-tag tag-blue">Automation</span>
                         <h3 class="large">The Complete Guide to Building Your First No-Code Workflow in Under 10 Minutes</h3>
                         <p>Step-by-step: connect Slack, Salesforce, and Notion, define your trigger events, and push your first automation live without writing a single line of code.</p>
                         <div class="article-meta">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Author">
+                            <img src="images/pexels-pramodtiwari-14016665.webp" alt="Author">
                             <div class="article-meta-text"><strong>Aisha Nkemdi</strong><br>May 28, 2026</div>
                             <span class="article-read">12 min</span>
                         </div>
@@ -420,13 +417,13 @@
 
                 <div style="display:flex;flex-direction:column;gap:24px;">
                     <a class="article-card reveal" href="#" data-category="ai">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80" class="article-card-img" alt="AI">
+                        <img src="images/pexels-cottonbro-7438107.webp" class="article-card-img" alt="AI">
                         <div class="article-card-body">
                             <span class="article-tag tag-purple">AI & ML</span>
                             <h3>GPT-4o vs. Claude 3.5 for Enterprise Data Classification: A Real-World Benchmark</h3>
                             <p>We ran 50,000 support tickets through both models. Here's what the accuracy curves actually look like.</p>
                             <div class="article-meta">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Author">
+                                <img src="images/pexels-shahadat-hossain-2156108532-34317747.webp" alt="Author">
                                 <div class="article-meta-text"><strong>Priya Mehta</strong><br>May 24, 2026</div>
                                 <span class="article-read">9 min</span>
                             </div>
@@ -438,7 +435,7 @@
                             <h3>Introducing Stackly 3.0: Native AI, Faster Triggers, and a New Bento Dashboard</h3>
                             <p>Everything we shipped in our biggest release yet — and a look at what's coming next quarter.</p>
                             <div class="article-meta">
-                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" alt="Author">
+                                <img src="images/pexels-tara-winstead-8386440.webp" alt="Author">
                                 <div class="article-meta-text"><strong>Marcus Holt</strong><br>May 20, 2026</div>
                                 <span class="article-read">5 min</span>
                             </div>
@@ -450,13 +447,13 @@
             <!-- 3-col grid -->
             <div class="article-three-grid">
                 <a class="article-card reveal" href="#" data-category="guide">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" class="article-card-img" alt="Analytics">
+                    <img src="images/pexels-cottonbro-7438107.webp" class="article-card-img" alt="Analytics">
                     <div class="article-card-body">
                         <span class="article-tag tag-amber">Guide</span>
                         <h3>Predictive Analytics for Non-Data Scientists: A Practical Playbook</h3>
                         <p>Surface bottlenecks and forecast demand without a PhD — just your existing workflow data and Stackly's analytics engine.</p>
                         <div class="article-meta">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Author">
+                            <img src="images/pexels-tranmautritam-326502.webp" alt="Author">
                             <div class="article-meta-text"><strong>Aisha Nkemdi</strong><br>May 18, 2026</div>
                             <span class="article-read">10 min</span>
                         </div>
@@ -464,13 +461,13 @@
                 </a>
 
                 <a class="article-card reveal" href="#" data-category="automation">
-                    <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=800&q=80" class="article-card-img" alt="Documents">
+                    <img src="images/pexels-danny-meneses-340146-943096.webp" class="article-card-img" alt="Documents">
                     <div class="article-card-body">
                         <span class="article-tag tag-blue">Automation</span>
                         <h3>From 3 Days to 3 Minutes: Automating Invoice Processing at Scale</h3>
                         <p>How a logistics company eliminated manual keying for 8,000 invoices a month using Stackly's document intelligence.</p>
                         <div class="article-meta">
-                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" alt="Author">
+                            <img src="images/pexels-tranmautritam-326509.webp" alt="Author">
                             <div class="article-meta-text"><strong>Marcus Holt</strong><br>May 15, 2026</div>
                             <span class="article-read">7 min</span>
                         </div>
@@ -478,13 +475,13 @@
                 </a>
 
                 <a class="article-card reveal" href="#" data-category="company">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="article-card-img" alt="Team">
+                    <img src="images/pexels-dkomov-34803987.webp" class="article-card-img" alt="Team">
                     <div class="article-card-body">
                         <span class="article-tag tag-rose">Company</span>
                         <h3>How We Hit $10M ARR by Obsessing Over One Metric: Time-to-First-Value</h3>
                         <p>The real story behind our growth — the mistakes, the pivots, and the single experiment that changed everything for us.</p>
                         <div class="article-meta">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Author">
+                            <img src="images/photo-1451187580459-43490279c0fa.webp" alt="Author">
                             <div class="article-meta-text"><strong>Priya Mehta</strong><br>May 10, 2026</div>
                             <span class="article-read">11 min</span>
                         </div>
@@ -495,13 +492,13 @@
             <!-- 2-col grid -->
             <div class="article-two-grid" style="margin-top:24px;">
                 <a class="article-card reveal" href="#" data-category="ai">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" class="article-card-img" alt="Code">
+                    <img src="images/pexels-danny-meneses-340146-943096.webp" class="article-card-img" alt="Code">
                     <div class="article-card-body">
                         <span class="article-tag tag-purple">AI & ML</span>
                         <h3>The Hidden Cost of Rule-Based Automation (And How to Escape It)</h3>
                         <p>Every rule you add is a liability. Here's why context-aware AI beats decision trees at scale and how to migrate without breaking production.</p>
                         <div class="article-meta">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Author">
+                            <img src="images/photo-1497366216548-37526070297c.webp" alt="Author">
                             <div class="article-meta-text"><strong>Aisha Nkemdi</strong><br>May 6, 2026</div>
                             <span class="article-read">8 min</span>
                         </div>
@@ -509,13 +506,13 @@
                 </a>
 
                 <a class="article-card reveal" href="#" data-category="guide">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" class="article-card-img" alt="Collaboration">
+                    <img src="images/pexels-dkomov-34803987.webp" class="article-card-img" alt="Collaboration">
                     <div class="article-card-body">
                         <span class="article-tag tag-dark">Guide</span>
                         <h3>SOC 2 for SaaS Teams: What Automation Can — and Can't — Do For Your Audit</h3>
                         <p>A compliance engineer's honest breakdown of which controls you can automate and which still need human eyes. No fluff, just checklists.</p>
                         <div class="article-meta">
-                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" alt="Author">
+                            <img src="images/ui.webp" alt="Author">
                             <div class="article-meta-text"><strong>Marcus Holt</strong><br>May 2, 2026</div>
                             <span class="article-read">14 min</span>
                         </div>
@@ -549,15 +546,15 @@
          NEWSLETTER
     ===================================================== -->
     <div class="newsletter-section">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80" class="newsletter-bg" alt="Network">
+        <img src="images/web%20dev%202.webp" class="newsletter-bg" alt="Network">
         <div class="newsletter-content reveal">
             <span class="label" style="color:rgba(255,255,255,0.4);">Weekly digest</span>
             <h2>Stay ahead of the automation curve.</h2>
             <p>Get the best articles, product updates, and workflow templates delivered to your inbox every Tuesday. No noise — just signal.</p>
-            <div class="newsletter-form">
-                <input type="email" placeholder="your@email.com">
-                <button>Subscribe →</button>
-            </div>
+            <form class="newsletter-form">
+                <input type="email" placeholder="your@email.com" required>
+                <button type="submit">Subscribe →</button>
+            </form>
             <p class="newsletter-note">Join 12,400+ automation engineers. Unsubscribe anytime.</p>
         </div>
     </div>
@@ -568,7 +565,7 @@
     <footer class="modern-footer">
         <div class="footer-grid reveal">
             <div class="footer-brand">
-                <h3>Stackly</h3>
+                <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
                 <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
             </div>
             <div class="footer-links">
@@ -591,6 +588,14 @@
                 <a href="contact.html">Contact</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
+            </div>
+        
+            <div class="footer-links">
+                <h4>Social</h4>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
             </div>
         </div>
         <div class="footer-bottom reveal">
@@ -679,5 +684,6 @@
             document.body.style.overflow = menu.classList.contains('active') ? 'clip' : '';
         }
     </script>
+    <script src="validation.js"></script>
 </body>
 </html>

@@ -108,6 +108,7 @@
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(3) { transition-delay: 0.20s; }
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(4) { transition-delay: 0.25s; }
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(5) { transition-delay: 0.30s; }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(6) { transition-delay: 0.35s; }
 
         /* =====================================================
            GLOBAL SECTION STYLES — Reused from index.html
@@ -147,6 +148,7 @@
         ===================================================== */
         .services-hero {
             min-height: 100dvh;
+            padding-top: 100px;
             position: relative;
             display: flex;
             align-items: center;
@@ -164,7 +166,7 @@
         }
         .services-hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(10,10,10,0.85) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(10,10,10,0.4) 100%);
             z-index: 2;
         }
         .services-hero-content {
@@ -498,7 +500,7 @@
            FOOTER — Exact copy from index.html
         ===================================================== */
         .modern-footer { background: #ffffff; padding: 80px 5% 40px; border-top: 1px solid rgba(0,0,0,0.05); z-index: 20; position: relative;}
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
         .footer-brand h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
         .footer-brand p { color: var(--gray); font-size: 14px; line-height: 1.6; max-width: 300px; }
         .footer-links h4 { font-size: 12px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); }
@@ -556,7 +558,7 @@
          NAVBAR — Identical to index.html
     ===================================================== -->
     <nav>
-        <a href="index.html" class="nav-logo">Stackly</a>
+        <a href="index.html" class="nav-logo"><img src="whitelogo.webp" alt="Stackly" style="height: 24px; filter: brightness(0);"></a>
         <!-- Desktop Menu -->
         <div class="nav-menu">
             <div class="nav-links">
@@ -568,7 +570,7 @@
             </div>
         </div>
         <div style="display: flex; gap: 12px; align-items: center;">
-            <a href="#" class="btn-black" style="display: none;" id="nav-cta">Login</a>
+            <a href="login.html" class="btn-black" style="display: none;" id="nav-cta">Login</a>
             <div class="hamburger" id="hamburger" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
@@ -588,6 +590,7 @@
             <a href="blog.html" onclick="toggleMenu()">Blog</a>
             <a href="about.html" onclick="toggleMenu()">About</a>
             <a href="contact.html" onclick="toggleMenu()">Contact</a>
+            <a href="login.html" onclick="toggleMenu()">Login</a>
         </div>
     </div>
 
@@ -596,15 +599,12 @@
     ===================================================== -->
     <section class="services-hero" id="services-hero">
         <img
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80"
+            src="images/pexels-markus-winkler-1430818-30839686.webp"
             class="services-hero-bg" alt="Abstract circuit technology">
         <div class="hero-grid"></div>
         <div class="services-hero-overlay"></div>
         <div class="services-hero-content">
-            <div class="hero-badge">
-                <span class="dot"></span>
-                Fully Operational — 99.9% uptime
-            </div>
+            
             <h1>Everything you need.<br>Nothing you don't.</h1>
             <p>Six enterprise-grade services engineered to eliminate friction, connect your tools, and keep your business moving at full velocity — 24 / 7.</p>
             <div class="hero-cta-row">
@@ -612,10 +612,7 @@
                 <a href="#" class="btn-link-hero">Talk to an expert &darr;</a>
             </div>
         </div>
-        <div class="scroll-hint">
-            <div class="mouse"></div>
-            Scroll
-        </div>
+        
     </section>
 
     <!-- =====================================================
@@ -718,15 +715,15 @@
             <!-- Left: sticky visual -->
             <div class="split-left" style="flex: 1.3;">
                 <div class="process-visual" id="process-visual">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
+                    <img src="images/web%20dev.webp"
                         class="process-img active" id="proc-img-0" alt="Dashboard">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80"
+                    <img src="images/app%20dev%202.webp"
                         class="process-img" id="proc-img-1" alt="Analytics">
-                    <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80"
+                    <img src="images/app%20dev.webp"
                         class="process-img" id="proc-img-2" alt="Documents">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80"
+                    <img src="images/pexels-cottonbro-7438101.webp"
                         class="process-img" id="proc-img-3" alt="Team">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80"
+                    <img src="images/pexels-cottonbro-7438101.webp"
                         class="process-img" id="proc-img-4" alt="Code">
                 </div>
             </div>
@@ -804,7 +801,7 @@
          STATS BANNER — Reused from index.html
     ===================================================== -->
     <div class="stats-banner">
-        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2000&q=80" class="bg-img" alt="Tech Background">
+        <img src="images/pexels-olly-3966786.webp" class="bg-img" alt="Tech Background">
         <div style="position: relative; z-index: 2;" class="reveal">
             <h2 class="section-title">The numbers that matter.</h2>
             <p class="section-sub" style="margin: 0 auto; max-width: 600px; color: rgba(255,255,255,0.8);">Every metric is verified by independent third-party audits — no vanity numbers, just results.</p>
@@ -820,56 +817,20 @@
     <!-- =====================================================
          ENTERPRISE BENTO — Dark feature showcase
     ===================================================== -->
-    <div class="bento-section">
-        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-            <span class="label reveal" style="color: rgba(255,255,255,0.4);">Enterprise ready</span>
-            <h2 class="section-title reveal" style="color: var(--text-light);">Security and compliance<br>built into every layer.</h2>
-        </div>
 
-        <div class="bento-grid">
-            <div class="bento-card bento-large reveal">
-                <div class="bento-badge"><span class="live-dot"></span> SOC 2 Type II Certified</div>
-                <h3>Bank-grade encryption at rest & in transit</h3>
-                <p>AES-256 encryption, TLS 1.3 in transit, and a zero-trust network architecture. Your data never lives in shared infrastructure.</p>
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80" alt="Security">
-            </div>
-
-            <div class="bento-card bento-small reveal" style="display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <div class="bento-badge"><span class="live-dot"></span> GDPR & HIPAA</div>
-                    <h3>Compliance out of the box</h3>
-                    <p>Data residency controls, right-to-erasure workflows, and HIPAA-ready BAAs available on enterprise plans.</p>
-                </div>
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Compliance" style="height: 140px; object-fit: cover;">
-            </div>
-
-            <div class="bento-card bento-third reveal">
-                <h3>Role-based access</h3>
-                <p>Granular RBAC down to individual workflow steps. SSO via SAML 2.0, Okta, and Azure AD.</p>
-            </div>
-            <div class="bento-card bento-third reveal">
-                <h3>Audit logs</h3>
-                <p>Immutable, tamper-proof logs of every action. Export to your SIEM in real time via webhooks or S3.</p>
-            </div>
-            <div class="bento-card bento-third reveal">
-                <h3>99.9% SLA</h3>
-                <p>Redundant infra across 4 AWS regions with automatic failover. Status page and PagerDuty integration included.</p>
-            </div>
-        </div>
-    </div>
 
     <!-- =====================================================
          TESTIMONIAL — Reused from index.html
     ===================================================== -->
     <div class="testimonial-section">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80" class="testimonial-bg" alt="Modern Office">
+        <img src="images/pexels-olly-927022.webp" class="testimonial-bg" alt="Modern Office">
         <div class="testimonial-content reveal">
             <h2 class="testimonial-text" id="quote-text">"Stackly's document intelligence saved our finance team 40 hours a month. Invoice processing that used to take days now takes minutes."</h2>
             <span class="label" style="color: #aaa;" id="quote-author">ENTERPRISE PLAN · NEW YORK, NY</span>
             <div class="avatars">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="avatar active" onclick="changeQuote(0)" alt="Testimonial 1">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="avatar" onclick="changeQuote(1)" alt="Testimonial 2">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="avatar" onclick="changeQuote(2)" alt="Testimonial 3">
+                <img src="./images/contact images/p1.webp" class="avatar active" onclick="changeQuote(0)" alt="Testimonial 1">
+                <img src="./images/contact images/p2.webp" class="avatar" onclick="changeQuote(1)" alt="Testimonial 2">
+                <img src="./images/contact images/p3.webp" class="avatar" onclick="changeQuote(2)" alt="Testimonial 3">
             </div>
         </div>
     </div>
@@ -878,7 +839,7 @@
          CTA BANNER
     ===================================================== -->
     <div class="cta-banner">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80" class="bg-img" alt="Global Network">
+        <img src="images/pexels-tara-winstead-8386440.webp" class="bg-img" alt="Global Network">
         <div class="cta-banner-content reveal">
             <span class="label" style="color: rgba(255,255,255,0.4);">Ready to automate?</span>
             <h2>Start with any service.<br>Scale to all of them.</h2>
@@ -896,7 +857,7 @@
     <footer class="modern-footer">
         <div class="footer-grid reveal">
             <div class="footer-brand">
-                <h3>Stackly</h3>
+                <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
                 <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
             </div>
             <div class="footer-links">
@@ -919,6 +880,14 @@
                 <a href="contact.html">Contact</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
+            </div>
+        
+            <div class="footer-links">
+                <h4>Social</h4>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
             </div>
         </div>
         <div class="footer-bottom reveal">
@@ -1021,14 +990,18 @@
         // 2. Accordion (Deep Dive tabs)
         // ======================================================
         function openTab(index, el) {
+            const wasOpen = el.classList.contains('open');
             // Close all
             document.querySelectorAll('.process-tab').forEach(t => t.classList.remove('open'));
-            // Open clicked
-            el.classList.add('open');
-            // Swap image
-            document.querySelectorAll('.process-img').forEach(img => img.classList.remove('active'));
-            const target = document.getElementById('proc-img-' + index);
-            if (target) target.classList.add('active');
+            
+            if (!wasOpen) {
+                // Open clicked
+                el.classList.add('open');
+                // Swap image
+                document.querySelectorAll('.process-img').forEach(img => img.classList.remove('active'));
+                const target = document.getElementById('proc-img-' + index);
+                if (target) target.classList.add('active');
+            }
         }
 
         // ======================================================
@@ -1088,5 +1061,6 @@
             document.body.style.overflow = menu.classList.contains('active') ? 'clip' : '';
         }
     </script>
+    <script src="validation.js"></script>
 </body>
 </html>

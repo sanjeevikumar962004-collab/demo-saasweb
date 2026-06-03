@@ -56,6 +56,7 @@
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(3){transition-delay:0.20s}
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(4){transition-delay:0.25s}
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(5){transition-delay:0.30s}
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(6){transition-delay:0.35s}
 
         /* =====================================================
            GLOBAL STYLES
@@ -267,8 +268,8 @@
             max-height: 0; overflow: hidden;
             transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1), padding 0.3s;
         }
-        .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 22px; }
-        .faq-answer p { font-size: 15px; color: var(--gray); line-height: 1.7; }
+        .faq-item.open .faq-answer { max-height: 500px; padding-bottom: 22px; }
+        .faq-answer p { font-size: 15px; color: var(--gray); line-height: 1.7; margin: 0; }
 
         /* =====================================================
            SOCIAL / COMMUNITY BAND
@@ -305,7 +306,7 @@
            FOOTER
         ===================================================== */
         .modern-footer { background: #ffffff; padding: 80px 5% 40px; border-top: 1px solid rgba(0,0,0,0.05); z-index: 20; position: relative; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
         .footer-brand h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
         .footer-brand p { color: var(--gray); font-size: 14px; line-height: 1.6; max-width: 300px; }
         .footer-links h4 { font-size: 12px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); }
@@ -347,7 +348,7 @@
 
     <!-- NAVBAR -->
     <nav>
-        <a href="index.html" class="nav-logo">Stackly</a>
+        <a href="index.html" class="nav-logo"><img src="whitelogo.webp" alt="Stackly" style="height: 24px; filter: brightness(0);"></a>
         <div class="nav-menu">
             <div class="nav-links">
                 <a href="index.html">Home</a>
@@ -358,7 +359,7 @@
             </div>
         </div>
         <div style="display:flex;gap:12px;align-items:center;">
-            <a href="#" class="btn-black" style="display:none;" id="nav-cta">Login</a>
+            <a href="login.html" class="btn-black" style="display:none;" id="nav-cta">Login</a>
             <div class="hamburger" id="hamburger" onclick="toggleMenu()">
                 <span></span><span></span><span></span>
             </div>
@@ -373,6 +374,7 @@
             <a href="blog.html" onclick="toggleMenu()">Blog</a>
             <a href="about.html" onclick="toggleMenu()">About</a>
             <a href="contact.html" onclick="toggleMenu()">Contact</a>
+            <a href="login.html" onclick="toggleMenu()">Login</a>
         </div>
     </div>
 
@@ -436,7 +438,7 @@
                     <button class="topic-chip" onclick="selectTopic(this)" data-topic="Other">Other</button>
                 </div>
 
-                <form id="contact-form" onsubmit="submitForm(event)">
+                <form id="contact-form">
                     <input type="hidden" id="selected-topic" value="Sales enquiry">
 
                     <div class="form-row">
@@ -486,13 +488,6 @@
                 </form>
             </div>
 
-            <!-- Success Message -->
-            <div class="form-success" id="form-success">
-                <div class="success-icon">✦</div>
-                <h3>Message received.</h3>
-                <p>We'll be in touch within 2 business hours. Check your inbox — we might reply sooner.</p>
-                <button onclick="resetForm()" style="margin-top:16px;padding:10px 24px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:100px;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Send another</button>
-            </div>
         </div>
     </section>
 
@@ -519,7 +514,7 @@
 
         <div class="offices-grid">
             <div class="office-card reveal">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" class="office-map" alt="San Francisco">
+                <img src="images/pexels-markus-winkler-1430818-30839686.webp" class="office-map" alt="San Francisco">
                 <div class="office-body">
                     <p class="office-city">San Francisco</p>
                     <p class="office-hq">Headquarters</p>
@@ -529,7 +524,7 @@
             </div>
 
             <div class="office-card reveal">
-                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80" class="office-map" alt="London">
+                <img src="images/pexels-olly-3966786.webp" class="office-map" alt="London">
                 <div class="office-body">
                     <p class="office-city">London</p>
                     <p class="office-hq">EMEA</p>
@@ -539,7 +534,7 @@
             </div>
 
             <div class="office-card reveal">
-                <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80" class="office-map" alt="Singapore">
+                <img src="images/pexels-olly-927022.webp" class="office-map" alt="Singapore">
                 <div class="office-body">
                     <p class="office-city">Singapore</p>
                     <p class="office-hq">APAC</p>
@@ -637,7 +632,7 @@
     <footer class="modern-footer">
         <div class="footer-grid reveal">
             <div class="footer-brand">
-                <h3>Stackly</h3>
+                <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
                 <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
             </div>
             <div class="footer-links">
@@ -660,6 +655,14 @@
                 <a href="contact.html">Contact</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
+            </div>
+        
+            <div class="footer-links">
+                <h4>Social</h4>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
             </div>
         </div>
         <div class="footer-bottom reveal">
@@ -732,41 +735,7 @@
             document.getElementById('selected-topic').value = el.dataset.topic;
         }
 
-        // 3. Form submit (demo only)
-        function submitForm(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            const btnText = document.getElementById('btn-text');
-            const btnArrow = document.getElementById('btn-arrow');
-
-            // Loading state
-            btn.disabled = true;
-            btnText.textContent = 'Sending…';
-            btnArrow.textContent = '⟳';
-            btn.style.opacity = '0.7';
-
-            setTimeout(() => {
-                document.getElementById('contact-form-wrap').style.display = 'none';
-                const success = document.getElementById('form-success');
-                success.style.display = 'flex';
-                gsap.fromTo(success, { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power3.out' });
-            }, 1400);
-        }
-
-        function resetForm() {
-            document.getElementById('form-success').style.display = 'none';
-            document.getElementById('contact-form-wrap').style.display = 'block';
-            document.getElementById('contact-form').reset();
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            document.getElementById('btn-text').textContent = 'Send message';
-            document.getElementById('btn-arrow').textContent = '→';
-            document.querySelectorAll('.topic-chip').forEach((c, i) => {
-                c.classList.toggle('active', i === 0);
-            });
-            document.getElementById('selected-topic').value = 'Sales enquiry';
-        }
+        // 3. (Removed custom submit to use validation.js)
 
         // 4. FAQ accordion
         function toggleFaq(item) {
@@ -784,5 +753,6 @@
             document.body.style.overflow = menu.classList.contains('active') ? 'clip' : '';
         }
     </script>
+    <script src="validation.js"></script>
 </body>
 </html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly - Sign Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --dark: #0a0a0a;
+            --text-dark: #111111;
+            --text-light: #ffffff;
+            --gray: #666666;
+            --border: rgba(0,0,0,0.1);
+            --font: 'Inter', -apple-system, sans-serif;
+            --radius-lg: 24px;
+            --radius-md: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0; /* padding for smaller screens if it gets too long */
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            background: var(--text-light);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.04);
+            margin: auto;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-header .logo {
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 24px;
+            display: inline-block;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .auth-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            border-color: var(--text-dark);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+        }
+
+        .btn-black {
+            width: 100%;
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 14px 24px;
+            border-radius: 100px;
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-black:hover {
+            background: #222;
+        }
+        
+        .btn-black:active {
+            transform: scale(0.98);
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .auth-footer a {
+            color: var(--text-dark);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <a href="index.html" class="logo"><img src="whitelogo.webp" alt="Stackly" style="height: 32px; display: block; margin: 0 auto; filter: brightness(0);"></a>
+            <h1>Create an account</h1>
+            <p>Start automating your workflows today.</p>
+        </div>
+        
+        <form id="auth-signup-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Work Email</label>
+                <input type="email" id="email" placeholder="name@company.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Min. 8 characters">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Repeat your password">
+            </div>
+
+            <div class="form-group">
+                <label for="role">Sign Up As</label>
+                <select id="role" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); font-size: 15px; outline: none; background: #fafafa;">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-black">Create Account</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Sign in</a>
+        </div>
+    </div>
+    
+    <script src="validation.js"></script>
+</body>
+</html>

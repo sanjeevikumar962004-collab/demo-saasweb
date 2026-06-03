@@ -109,6 +109,7 @@
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(3) { transition-delay: 0.20s; }
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(4) { transition-delay: 0.25s; }
         .nav-menu-mobile.active .nav-links-mobile a:nth-child(5) { transition-delay: 0.30s; }
+        .nav-menu-mobile.active .nav-links-mobile a:nth-child(6) { transition-delay: 0.35s; }
 
         /* --- Hero Section & Scroll Animation --- */
         .hero-wrapper {
@@ -144,7 +145,7 @@
         .hero-bg-container img { width: 100%; height: 100%; object-fit: cover; }
         .hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
         }
 
         .hero-text-content {
@@ -327,7 +328,7 @@
         
         /* --- Modern Footer --- */
         .modern-footer { background: #ffffff; padding: 80px 5% 40px; border-top: 1px solid rgba(0,0,0,0.05); z-index: 20; position: relative;}
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 60px; text-align: left; }
         .footer-brand h3 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
         .footer-brand p { color: var(--gray); font-size: 14px; line-height: 1.6; max-width: 300px; }
         .footer-links h4 { font-size: 12px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); }
@@ -404,7 +405,7 @@
 <body>
 
     <nav>
-        <div class="nav-logo">Stackly</div>
+        <div class="nav-logo"><img src="whitelogo.webp" alt="Stackly" style="height: 24px; filter: brightness(0);"></div>
         <!-- Desktop Menu -->
         <div class="nav-menu">
             <div class="nav-links">
@@ -416,7 +417,7 @@
             </div>
         </div>
         <div style="display: flex; gap: 12px; align-items: center;">
-            <a href="#" class="btn-black" style="display: none;" id="nav-cta">Login</a>
+            <a href="login.html" class="btn-black" style="display: none;" id="nav-cta">Login</a>
             <div class="hamburger" id="hamburger" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
@@ -436,6 +437,7 @@
             <a href="blog.html" onclick="toggleMenu()">Blog</a>
             <a href="about.html" onclick="toggleMenu()">About</a>
             <a href="contact.html" onclick="toggleMenu()">Contact</a>
+            <a href="login.html" onclick="toggleMenu()">Login</a>
         </div>
     </div>
 
@@ -443,7 +445,7 @@
     <div class="hero-wrapper" id="hero">
         <div class="hero-sticky">
             <div class="hero-bg-container">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=2000&q=80" alt="Abstract Tech Hero">
+                <img src="./images/pexels-shahadat-hossain-2156108532-34317747.webp" alt="Abstract Tech Hero">
                 <div class="hero-overlay"></div>
             </div>
             
@@ -457,12 +459,12 @@
             </div>
 
             <!-- Scattered Parallax Images -->
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-1" alt="Dashboard">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-2" alt="Data Charts">
-            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-3" alt="Analytics">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-4" alt="Tablet UI">
-            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-5" alt="Network Connect">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" class="scatter-img sc-6" alt="Code Script">
+            <img src="images/pexels-markus-winkler-1430818-30839686.webp" class="scatter-img sc-1" alt="Dashboard">
+            <img src="images/pexels-olly-3966786.webp" class="scatter-img sc-2" alt="Data Charts">
+            <img src="images/pexels-olly-927022.webp" class="scatter-img sc-3" alt="Analytics">
+            <img src="images/pexels-pixabay-265125.webp" class="scatter-img sc-4" alt="Tablet UI">
+            <img src="images/pexels-pramodtiwari-14016665.webp" class="scatter-img sc-5" alt="Network Connect">
+            <img src="images/pexels-shahadat-hossain-2156108532-34317747.webp" class="scatter-img sc-6" alt="Code Script">
             
         </div>
     </div>
@@ -488,37 +490,37 @@
             <div class="split-right">
                 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Dashboard">
+                    <img src="images/pexels-pixabay-265125.webp" alt="Dashboard">
                     <h3>Visual Workflow Builder</h3>
                     <p class="section-sub" style="font-size: 15px;">Drag and drop to create complex automations. Build workflows that trigger across multiple apps instantly with zero technical knowledge.</p>
                 </div>
 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=800&q=80" alt="Routing">
+                    <img src="images/pexels-tara-winstead-8386440.webp" alt="Routing">
                     <h3>AI-Powered Data Routing</h3>
                     <p class="section-sub" style="font-size: 15px;">Let our AI analyze incoming data, categorize it, and route it to the right team members or databases automatically based on context.</p>
                 </div>
 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Documents">
+                    <img src="images/pexels-tranmautritam-326502.webp" alt="Documents">
                     <h3>Smart Document Processing</h3>
                     <p class="section-sub" style="font-size: 15px;">Stop manual data entry. Stackly reads invoices, contracts, and emails to extract key information and sync it to your CRM or ERP.</p>
                 </div>
 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" alt="Collaboration">
+                    <img src="images/pexels-tranmautritam-326509.webp" alt="Collaboration">
                     <h3>Real-time Team Collaboration</h3>
                     <p class="section-sub" style="font-size: 15px;">A built-in hub that tracks every automation, alerts the right people when human approval is needed, and keeps your entire organization in sync.</p>
                 </div>
 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" alt="Integrations">
+                    <img src="images/photo-1451187580459-43490279c0fa.webp" alt="Integrations">
                     <h3>One-click App Integrations</h3>
                     <p class="section-sub" style="font-size: 15px;">Connect your favorite tools—Slack, Salesforce, Notion, and Google Workspace—in seconds with zero setup or API key management.</p>
                 </div>
 
                 <div class="card reveal">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Analysis">
+                    <img src="images/pexels-pramodtiwari-14016665.webp" alt="Analysis">
                     <h3>Predictive Analytics Engine</h3>
                     <p class="section-sub" style="font-size: 15px;">Spot bottlenecks before they happen. Get weekly intelligence reports on your team's productivity and workflow execution times.</p>
                 </div>
@@ -547,16 +549,16 @@
                 </div>
             </div>
             <div class="uc-image-container">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" class="uc-img active" id="uc-img-0" alt="Sales Dashboard">
-                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80" class="uc-img" id="uc-img-1" alt="Engineering Code">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" class="uc-img" id="uc-img-2" alt="HR Team">
+                <img src="images/pexels-shahadat-hossain-2156108532-34317747.webp" class="uc-img active" id="uc-img-0" alt="Sales Dashboard">
+                <img src="images/pexels-tara-winstead-8386440.webp" class="uc-img" id="uc-img-1" alt="Engineering Code">
+                <img src="images/pexels-tranmautritam-326502.webp" class="uc-img" id="uc-img-2" alt="HR Team">
             </div>
         </div>
     </div>
 
     <!-- STATS BANNER -->
     <div class="stats-banner">
-        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2000&q=80" class="bg-img" alt="Cyber Security Tech">
+        <img src="images/app%20dev%202.webp" class="bg-img" alt="Cyber Security Tech">
         <div style="position: relative; z-index: 2;" class="reveal">
             <h2 class="section-title">Stop doing busywork. Start building.</h2>
             <p class="section-sub" style="margin: 0 auto; max-width: 600px; color: rgba(255,255,255,0.8);">Teams spend 20 hours a week on repetitive tasks. You spend 20 minutes reviewing workflows the AI already optimized.</p>
@@ -571,14 +573,14 @@
 
     <!-- TESTIMONIAL -->
     <div class="testimonial-section">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80" class="testimonial-bg" alt="Modern Office">
+        <img src="images/app%20dev.webp" class="testimonial-bg" alt="Modern Office">
         <div class="testimonial-content reveal">
             <h2 class="testimonial-text" id="quote-text">"Automating our lead routing changed everything. We capture leads, score them, and sync them to the CRM instantly. Our close rate tripled."</h2>
             <span class="label" style="color: #aaa;" id="quote-author">ENTERPRISE PLAN · AUSTIN, TX</span>
             <div class="avatars">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="avatar active" onclick="changeQuote(0)">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="avatar" onclick="changeQuote(1)">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="avatar" onclick="changeQuote(2)">
+                <img src="./images/contact images/p1.webp" class="avatar active" onclick="changeQuote(0)">
+                <img src="./images/contact images/p2.webp" class="avatar" onclick="changeQuote(1)">
+                <img src="./images/contact images/p3.webp" class="avatar" onclick="changeQuote(2)">
             </div>
         </div>
     </div>
@@ -611,7 +613,7 @@
                 </div>
             </div>
             <div class="split-right reveal">
-                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" style="border-radius: var(--radius-lg); height: 100%; object-fit: cover; width: 100%;" alt="Interior">
+                <img src="images/photo-1497366216548-37526070297c.webp" style="border-radius: var(--radius-lg); height: 100%; object-fit: cover; width: 100%;" alt="Interior">
             </div>
         </div>
     </div>
@@ -633,18 +635,12 @@
             <span class="niche-tag">Finance & Billing <span class="niche-val">Active</span></span>
         </div>
 
-        <div class="reveal">
-            <span class="label" style="margin: 60px 0 16px;">Or search for an app</span>
-            <div class="search-bar">
-                <input type="text" placeholder="Search an app — Slack, Salesforce, Notion...">
-                <button>&rarr;</button>
-            </div>
         </div>
     </div>
 
     <!-- SLEEP SECTION -->
     <div class="sleep-section">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80" class="sleep-bg" alt="Global Network">
+        <img src="images/pexels-dkomov-34803987.webp" class="sleep-bg" alt="Global Network">
         <div class="sleep-overlay"></div>
         <div class="sleep-content reveal">
             <h2 class="section-title">Your business runs<br>while you sleep.</h2>
@@ -704,11 +700,11 @@
     <div class="section text-center" style="padding-top: 40px; padding-bottom: 80px;">
         <p class="section-sub reveal" style="margin-bottom: 24px;">Built for the way modern teams actually work. Automation runs in the background. Your team stays in the foreground.</p>
         <div class="bento-gallery reveal">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80" alt="UI Dashboard">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=300&q=80" alt="Data Charts">
-            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=300&q=80" alt="Analytics">
-            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=300&q=80" alt="Network">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=300&q=80" alt="Code">
+            <img src="images/pexels-tranmautritam-326509.webp" alt="UI Dashboard">
+            <img src="images/photo-1451187580459-43490279c0fa.webp" alt="Data Charts">
+            <img src="images/photo-1497366216548-37526070297c.webp" alt="Analytics">
+            <img src="images/ui.webp" alt="Network">
+            <img src="images/web%20dev%202.webp" alt="Code">
         </div>
         <h2 class="section-title reveal">Every workflow has a bottleneck.<br>Start eliminating yours.</h2>
         <a href="#" class="btn-black reveal" style="display: inline-block; margin-top: 24px;">Start free trial</a>
@@ -718,7 +714,7 @@
     <footer class="modern-footer">
         <div class="footer-grid reveal">
             <div class="footer-brand">
-                <h3>Stackly</h3>
+                <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
                 <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
             </div>
             <div class="footer-links">
@@ -741,6 +737,14 @@
                 <a href="contact.html">Contact</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
+            </div>
+        
+            <div class="footer-links">
+                <h4>Social</h4>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
             </div>
         </div>
         <div class="footer-bottom reveal">
@@ -1001,5 +1005,6 @@
             }
         }
     </script>
+    <script src="validation.js"></script>
 </body>
 </html>

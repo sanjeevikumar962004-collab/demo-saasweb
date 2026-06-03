@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly - User Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --dark: #0a0a0a;
+            --text-dark: #111111;
+            --text-light: #ffffff;
+            --gray: #666666;
+            --border: rgba(0,0,0,0.1);
+            --font: 'Inter', -apple-system, sans-serif;
+            --radius-lg: 24px;
+            --radius-md: 12px;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-decoration: none;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #f5f5f5;
+            color: var(--text-dark);
+        }
+
+        .nav-item.active {
+            background: var(--text-dark);
+            color: var(--text-light);
+        }
+
+        .user-profile {
+            padding: 16px;
+            background: #f9f9f9;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-profile:hover {
+            background: #f0f0f0;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .user-info {
+            flex-grow: 1;
+            min-width: 0; /* Important for text overflow */
+        }
+        
+        .user-info .name { 
+            font-size: 14px; 
+            font-weight: 600; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .user-info .plan { 
+            font-size: 12px; 
+            color: var(--gray); 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .top-bar h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .btn-black {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-black:hover {
+            background: #222;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .stat-card h3 {
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 500;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Recent Workflows */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .workflow-list {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .workflow-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .workflow-item:last-child {
+            border-bottom: none;
+        }
+
+        .workflow-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .workflow-info p {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status.active { background: #e8f5e9; color: #2e7d32; }
+        .status.paused { background: #fff3e0; color: #ef6c00; }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { 
+                position: fixed; 
+                height: 100%; 
+                transform: translateX(-100%); 
+            }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+            .stats-grid { grid-template-columns: 1fr; }
+            .hamburger { display: block; }
+            .main-content { padding: 24px; }
+            .top-bar { margin-bottom: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <a href="index.html" class="sidebar-logo" style="margin-bottom: 0;"><img src="whitelogo.webp" alt="Stackly" style="height: 24px; filter: brightness(0);"></a>
+            <button class="hamburger" onclick="toggleSidebar()" style="display: none; font-size: 28px;" id="sidebar-close">&times;</button>
+        </div>
+        
+        <div class="nav-items">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">Workflows</a>
+            <a href="#" class="nav-item">Integrations</a>
+            <a href="#" class="nav-item">Settings</a>
+        </div>
+
+        <div class="user-profile" onclick="window.location.href='login.html'">
+            <div class="avatar" id="user-avatar">U</div>
+            <div class="user-info">
+                <div class="name" id="user-name-display">Loading...</div>
+                <div class="plan" id="user-email-display">Loading...</div>
+            </div>
+            <div style="color: var(--gray); font-size: 18px; flex-shrink: 0;">&rarr;</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+                <h1>Overview</h1>
+            </div>
+            <a href="404.html" class="btn-black" style="display: inline-block;">+ New Workflow</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Active Workflows</h3>
+                <div class="value">12</div>
+            </div>
+            <div class="stat-card">
+                <h3>Tasks Automated (30d)</h3>
+                <div class="value">4,285</div>
+            </div>
+            <div class="stat-card">
+                <h3>Hours Saved (Est.)</h3>
+                <div class="value">42.5</div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>Tasks Automated (Last 7 Days)</h2>
+        </div>
+        <div class="stat-card" style="margin-bottom: 40px; padding: 20px;">
+            <canvas id="tasksChart" height="80"></canvas>
+        </div>
+
+        <div class="section-header">
+            <h2>Recent Workflows</h2>
+            <a href="#" style="color: var(--gray); font-size: 14px; text-decoration: none;">View All</a>
+        </div>
+
+        <div class="workflow-list">
+            <div class="workflow-item">
+                <div class="workflow-info">
+                    <h4>Lead Routing to CRM</h4>
+                    <p>Triggered when a new form is submitted</p>
+                </div>
+                <span class="status active">Active</span>
+            </div>
+            <div class="workflow-item">
+                <div class="workflow-info">
+                    <h4>Slack Notification for High-Value Tickets</h4>
+                    <p>Triggered from Zendesk</p>
+                </div>
+                <span class="status active">Active</span>
+            </div>
+            <div class="workflow-item">
+                <div class="workflow-info">
+                    <h4>Weekly Analytics Sync</h4>
+                    <p>Scheduled run to Google Sheets</p>
+                </div>
+                <span class="status paused">Paused</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="validation.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const closeBtn = document.getElementById("sidebar-close");
+            if(window.innerWidth <= 768) {
+                closeBtn.style.display = "block";
+            }
+            sidebar.classList.toggle("open");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const email = localStorage.getItem("authEmail");
+            if (email) {
+                const display = document.getElementById("user-email-display");
+                if (display) display.textContent = email;
+            }
+
+            const name = localStorage.getItem("authName");
+            if (name) {
+                const display = document.getElementById("user-name-display");
+                if (display) display.textContent = name;
+                
+                const avatar = document.getElementById("user-avatar");
+                if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
+            }
+
+            // Chart Initialization
+            const ctx = document.getElementById('tasksChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Tasks Run',
+                            data: [120, 190, 300, 250, 420, 310, 500],
+                            borderColor: '#111111',
+                            backgroundColor: 'rgba(17,17,17,0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, grid: { display: false } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
