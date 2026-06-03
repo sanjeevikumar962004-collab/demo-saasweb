@@ -58,7 +58,7 @@
             max-width: 95%;
         }
 
-        .nav-logo { font-weight: 600; font-size: 14px; z-index: 1006; position: relative; text-decoration: none; color: var(--text-dark); }
+        .nav-logo { font-weight: 600; font-size: 14px; z-index: 1006; position: relative; text-decoration: none; color: var(--text-dark); flex-shrink: 0; }
         .nav-menu { display: flex; align-items: center; gap: 32px; }
         .nav-links { display: flex; gap: 24px; }
         .nav-links a { text-decoration: none; color: var(--text-dark); font-size: 13px; font-weight: 500; opacity: 0.6; transition: 0.2s; }
@@ -514,7 +514,7 @@
         /* =====================================================
            RESPONSIVE
         ===================================================== */
-        @media (max-width: 900px) {
+        @media (max-width: 1050px) {
             .split-layout { flex-direction: column; align-items: center; width: 100%; }
             .split-left, .split-right { position: relative; top: 0; width: 100%; }
             .split-left { margin-bottom: 40px; }
@@ -579,7 +579,7 @@
         </div>
     </nav>
     <style>
-        @media(min-width: 901px) { #nav-cta { display: block !important; } }
+        @media(min-width: 1051px) { #nav-cta { display: block !important; } }
     </style>
 
     <!-- Mobile Full Screen Menu -->
@@ -857,7 +857,9 @@
     <footer class="modern-footer">
         <div class="footer-grid reveal">
             <div class="footer-brand">
-                <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
+                <a href="index.html" class="footer-logo-link">
+                    <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
+                </a>
                 <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
             </div>
             <div class="footer-links">

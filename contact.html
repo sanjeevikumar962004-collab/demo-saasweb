@@ -37,7 +37,7 @@
             align-items: center; gap: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease; max-width: 95%;
         }
-        .nav-logo { font-weight: 600; font-size: 14px; z-index: 1006; position: relative; text-decoration: none; color: var(--text-dark); }
+        .nav-logo { font-weight: 600; font-size: 14px; z-index: 1006; position: relative; text-decoration: none; color: var(--text-dark); flex-shrink: 0; }
         .nav-menu { display: flex; align-items: center; gap: 32px; }
         .nav-links { display: flex; gap: 24px; }
         .nav-links a { text-decoration: none; color: var(--text-dark); font-size: 13px; font-weight: 500; opacity: 0.6; transition: 0.2s; }
@@ -324,7 +324,7 @@
             .contact-info-cards { max-width: 100%; }
             .offices-grid { grid-template-columns: 1fr 1fr; }
         }
-        @media(max-width: 900px) {
+        @media(max-width: 1050px) {
             nav { width: 90%; justify-content: space-between; padding: 8px 8px 8px 24px; gap: 0; }
             .nav-menu { display: none; }
             .nav-menu-mobile { display: flex; }
@@ -365,7 +365,7 @@
             </div>
         </div>
     </nav>
-    <style>@media(min-width:901px){#nav-cta{display:block !important;}}</style>
+    <style>@media(min-width:1051px){#nav-cta{display:block !important;}}</style>
 
     <div class="nav-menu-mobile" id="mobile-nav-menu">
         <div class="nav-links-mobile">
@@ -463,17 +463,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="team-size">Team Size</label>
-                        <select id="team-size" class="form-input" style="cursor:pointer;">
-                            <option value="" disabled selected>Select range…</option>
-                            <option>1 – 10</option>
-                            <option>11 – 50</option>
-                            <option>51 – 200</option>
-                            <option>201 – 1,000</option>
-                            <option>1,000+</option>
-                        </select>
-                    </div>
+                    
 
                     <div class="form-group">
                         <label for="message">Your Message</label>
@@ -514,11 +504,11 @@
 
         <div class="offices-grid">
             <div class="office-card reveal">
-                <img src="images/pexels-markus-winkler-1430818-30839686.webp" class="office-map" alt="San Francisco">
+                <img src="images/pexels-markus-winkler-1430818-30839686.webp" class="office-map" alt="Salem">
                 <div class="office-body">
-                    <p class="office-city">San Francisco</p>
+                    <p class="office-city">Salem</p>
                     <p class="office-hq">Headquarters</p>
-                    <address>340 Pine Street, Suite 800<br>San Francisco, CA 94104<br>United States</address>
+                    <address>Salem<br>India</address>
                     <a href="mailto:sf@stackly.io" class="office-email">sf@stackly.io →</a>
                 </div>
             </div>
@@ -536,9 +526,9 @@
             <div class="office-card reveal">
                 <img src="images/pexels-olly-927022.webp" class="office-map" alt="Singapore">
                 <div class="office-body">
-                    <p class="office-city">Singapore</p>
+                    <p class="office-city">Dubai</p>
                     <p class="office-hq">APAC</p>
-                    <address>1 Raffles Place, Tower 2<br>#28-00 OUB Centre<br>Singapore 048616</address>
+                    <address>1 Raffles Place, Tower 2<br>#28-00 OUB Centre<br>Dubai, UAE</address>
                     <a href="mailto:apac@stackly.io" class="office-email">apac@stackly.io →</a>
                 </div>
             </div>
@@ -632,7 +622,9 @@
     <footer class="modern-footer">
         <div class="footer-grid reveal">
             <div class="footer-brand">
-                <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
+                <a href="index.html" class="footer-logo-link">
+                    <img src="whitelogo.webp" alt="Stackly" style="height: 32px; margin-bottom: 16px; filter: brightness(0);">
+                </a>
                 <p>The AI workspace for modern teams. Stop doing busywork. Start building.</p>
             </div>
             <div class="footer-links">

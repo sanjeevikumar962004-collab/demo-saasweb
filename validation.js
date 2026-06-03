@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             border-color: #A3D9C9 !important; /* Soft premium green border */
             background-color: #FCFDFB !important;
             box-shadow: 0 4px 12px rgba(163, 217, 201, 0.15) !important;
+            color: #111111 !important;
         }
 
         .form-group.is-invalid input,
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             border-color: #E07A5F !important; /* Soft luxury terracotta red */
             background-color: #FFFDFD !important;
             box-shadow: 0 4px 12px rgba(224, 122, 95, 0.15) !important;
+            color: #111111 !important;
         }
 
         /* Error Label styling - Non-absolute block elements for full responsiveness and alignment */
@@ -112,12 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
             border-color: #E07A5F !important;
             box-shadow: 0 4px 15px rgba(224, 122, 95, 0.3) !important;
             background-color: #FFFDFD !important;
+            color: #111111 !important;
         }
         
         .search-box input.is-valid {
             border-color: #A3D9C9 !important;
             box-shadow: 0 4px 15px rgba(163, 217, 201, 0.3) !important;
             background-color: #FCFDFB !important;
+            color: #111111 !important;
         }
 
         /* Premium Success Modal Overlay */
@@ -689,8 +693,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // Explicitly intercept all footer links and route them to 404
                 if (target.closest("footer") || target.closest(".modern-footer")) {
-                    shouldGoTo404 = true;
-                    break;
+                    if (!target.classList.contains("footer-logo-link") && !target.closest(".footer-logo-link")) {
+                        shouldGoTo404 = true;
+                        break;
+                    }
                 }
 
                 if (href) {
